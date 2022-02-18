@@ -1,1 +1,4 @@
-{:server/server {}}
+{:sample/hello {}
+ :server/router {:routes [[""
+                           #ig/ref :sample/hello]]}
+ :server/server {:router #ig/ref :server/router}}

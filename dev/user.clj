@@ -21,3 +21,12 @@
              (reveal/tap-log :always-on-top true
                              :close-difficulty :easy))
            true))
+
+(comment
+  (require '[reitit.core :as r])
+
+  (let [sys integrant.repl.state/system
+        router (:server/router sys)]
+    router)
+
+  )
