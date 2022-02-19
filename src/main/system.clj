@@ -1,6 +1,5 @@
 ;; Copyright © 2016, JUXT LTD.
-
-(ns edge.system
+(ns main.system
   "Components and their dependency relationships"
   (:require
    [aero.core :as aero]
@@ -22,7 +21,7 @@
   "Read EDN config, with the given aero options. See Aero docs at
   https://github.com/juxt/aero for details."
   [opts]
-  (-> (io/resource "config.edn")
+  (-> (io/resource "main/config.edn")
       (aero/read-config opts)))
 
 (defn system-config

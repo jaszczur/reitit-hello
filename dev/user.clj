@@ -1,6 +1,6 @@
 (ns user
   (:require
-   [edge.system :as system]
+   [main.system :as system]
    [integrant.repl :refer [clear go halt prep init reset reset-all]]
    [io.aviso.repl]
    [io.aviso.exception]

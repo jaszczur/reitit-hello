@@ -1,0 +1,11 @@
+{:user.api/routes nil
+
+ :server/router
+ {:database #ig/ref :adapters.database/database
+  :routes
+  [[""
+    #ig/ref :user.api/routes]]}
+
+ :server/server {:router #ig/ref :server/router}
+
+ :adapters.database/database nil}

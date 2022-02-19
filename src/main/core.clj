@@ -1,6 +1,6 @@
-(ns edge.main
+(ns main.core
   (:require
-   edge.system
+   [main.system :as sys]
    [integrant.core :as ig])
   (:gen-class))
 
@@ -8,7 +8,7 @@
 
 (defn -main [& args]
   (let [profile (keyword (or (System/getenv "PROFILE") "dev"))
-        system-config (edge.system/system-config {:profile profile})
+        system-config (sys/system-config {:profile profile})
         sys           (ig/init system-config)]
     (.addShutdownHook
      (Runtime/getRuntime)

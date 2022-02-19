@@ -3,6 +3,7 @@
    [camel-snake-kebab.core :as csk]
    [integrant.core :as ig]
    [interceptors.common :refer [common-interceptors]]
+   [interceptors.database :as db]
    [muuntaja.core]
    [reitit.dev.pretty :as pretty]
    [reitit.coercion.malli]
@@ -23,14 +24,15 @@
         [:formats "application/json" :decoder-opts]
         {:decode-key-fn csk/->kebab-case-keyword}))))
 
-(defmethod ig/init-key :server/router [_ {:keys [routes]}]
+(defmethod ig/init-key :server/router [_ {:keys [routes database]}]
   (http/router
    routes
    {:exception pretty/exception
     :validate  rs/validate
     :data {:coercion reitit.coercion.malli/coercion
            :muuntaja muuntaja
-           :interceptors  (common-interceptors)}}))
+           :interceptors  (->  (common-interceptors)
+                               (conj (db/inject-db database)))}}))
 
 (defmethod ig/init-key :server/server [_ {:keys [router]}]
   (jetty/run-jetty

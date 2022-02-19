@@ -1,18 +1,17 @@
-(ns database
+(ns interceptors.database
   (:require [sieppari.context :refer [terminate]]))
 
-(def db
-  {69 {:name "Pachinko"
-       :date "2021-01-06"
-       :last-modified "Mon, 18 Jul 2016 02:36:04 GMT"}})
-
+(defn inject-db [database]
+  {:name ::inject-db
+   :enter (fn [ctx]
+            (assoc ctx :db database))})
 
 (defn select-by-id
   ([query-fn]
    (select-by-id :entity query-fn))
   ([k query-fn]
    {:enter (fn [ctx]
-             (if-let [entity (get db (query-fn ctx))]
+             (if-let [entity (get @(:db ctx) (query-fn ctx))]
                (-> ctx
                    (assoc-in [:request :query-results k] entity)
                    (assoc-in [:query-meta k :last-modified] (:last-modified entity)))
