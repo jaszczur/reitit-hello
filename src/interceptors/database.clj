@@ -1,21 +1,25 @@
 (ns interceptors.database
-  (:require [sieppari.context :refer [terminate]]))
+  (:require [sieppari.context :refer [terminate]]
+            [adapters.database :as jdbc]))
 
 (defn inject-db [database]
   {:name ::inject-db
    :enter (fn [ctx]
             (assoc ctx :db database))})
 
-(defn select-by-id
+(defn query-one
+  "Queries database for "
   ([query-fn]
-   (select-by-id :entity query-fn))
+   (query-one :entity query-fn))
   ([k query-fn]
    {:enter (fn [ctx]
-             (if-let [entity (get @(:db ctx) (query-fn ctx))]
-               (-> ctx
-                   (assoc-in [:request :query-results k] entity)
-                   (assoc-in [:query-meta k :last-modified] (:last-modified entity)))
-               ctx))
+             (let [query  (query-fn ctx)
+                   entity (and query (jdbc/execute-one (:db ctx) query))]
+               (if entity
+                 (-> ctx
+                     (assoc-in [:request :query-results k] entity)
+                     (assoc-in [:query-meta k :last-modified] (:last-modified entity)))
+                 ctx)))
     :leave (fn [ctx]
              (if-let [last-modified (get-in ctx [:query-meta k :last-modified])]
                (assoc-in ctx [:response :headers "Last-Modified"] last-modified)

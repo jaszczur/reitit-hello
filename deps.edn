@@ -1,12 +1,20 @@
 {:paths ["src"]
  :deps
- {integrant/integrant          {:mvn/version "0.8.0"}
-  aero/aero                    {:mvn/version "1.1.6"}
-  metosin/reitit               {:mvn/version "0.5.16"}
-  ring/ring-jetty-adapter      {:mvn/version "1.9.5"}
-  com.fzakaria/slf4j-timbre    {:mvn/version "0.3.21"}
-  camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.2"}}
+ {aero/aero                              {:mvn/version "1.1.6"}
+  camel-snake-kebab/camel-snake-kebab    {:mvn/version "0.4.2"}
+  com.fzakaria/slf4j-timbre              {:mvn/version "0.3.21"}
+  com.github.seancorfield/honeysql       {:mvn/version "2.2.861"}
+  com.github.seancorfield/next.jdbc      {:mvn/version "1.2.772"}
+  com.zaxxer/HikariCP                    {:mvn/version "3.3.1"}
+  integrant/integrant                    {:mvn/version "0.8.0"}
+  manifold/manifold                      {:mvn/version "0.2.3"}
+  metosin/reitit                         {:mvn/version "0.5.16"}
+  org.xerial/sqlite-jdbc                 {:mvn/version "3.36.0.3"}
+  ring/ring-jetty-adapter                {:mvn/version "1.9.5"}}
  :aliases
  {:env/dev {:extra-paths ["dev"]
             :extra-deps {integrant/repl  {:mvn/version "0.3.2"}
-                         io.aviso/pretty {:mvn/version "1.1.1"}}}}}
+                         io.aviso/pretty {:mvn/version "1.1.1"}
+                         hato/hato       {:mvn/version "0.8.2"}}}
+  :env/test {:extra-paths ["test"]
+             :extra-deps {lambdaisland/kaocha {:mvn/version "1.63.998"}}}}}

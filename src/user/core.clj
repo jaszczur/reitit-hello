@@ -4,4 +4,4 @@
 ;;
 
 (defn greet [user]
-  (str "Hello, " (:name user) "!"))
+  (str "Hello, " (:user/name user) "!"))

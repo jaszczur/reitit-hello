@@ -1,0 +1,4 @@
+[{:insert-into :user
+  :columns [:name :last-modified]
+  :values [["Zenon" "Mon, 18 Jul 2016 02:36:04 GMT"]
+           ["Henio" "Tue, 18 Jan 2022 12:21:55 GMT"]]}]

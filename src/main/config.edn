@@ -1,4 +1,5 @@
-{:user.api/routes nil
+{:user.api/routes
+ nil
 
  :server/router
  {:database #ig/ref :adapters.database/database
@@ -6,6 +7,12 @@
   [[""
     #ig/ref :user.api/routes]]}
 
- :server/server {:router #ig/ref :server/router}
+ :server/server
+ {:router #ig/ref :server/router}
 
- :adapters.database/database nil}
+ :adapters.database/database
+ {:db-spec {:jdbcUrl "jdbc:sqlite::memory:"}
+  :schema-resource "adapters/schema.sql"
+
+  :fixtures #profile {:default []
+                      :dev #include "dev_fixtures.edn"}}}
