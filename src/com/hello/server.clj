@@ -1,9 +1,10 @@
-(ns server
+(ns com.hello.server
   (:require
+   [clojure.tools.logging :as log]
    [camel-snake-kebab.core :as csk]
    [integrant.core :as ig]
-   [interceptors.common :refer [common-interceptors]]
-   [interceptors.database :as db]
+   [com.hello.interceptors.common :refer [common-interceptors]]
+   [com.hello.interceptors.database :as db]
    [muuntaja.core]
    [reitit.dev.pretty :as pretty]
    [reitit.coercion.malli]
@@ -12,7 +13,6 @@
    [reitit.ring :as ring]
    [reitit.spec :as rs]
    [ring.adapter.jetty :as jetty]))
-
 
 (def muuntaja
   (muuntaja.core/create
@@ -24,7 +24,7 @@
         [:formats "application/json" :decoder-opts]
         {:decode-key-fn csk/->kebab-case-keyword}))))
 
-(defmethod ig/init-key :server/router [_ {:keys [routes database]}]
+(defmethod ig/init-key ::router [_ {:keys [routes database]}]
   (http/router
    routes
    {:exception pretty/exception
@@ -34,14 +34,15 @@
            :interceptors  (->  (common-interceptors)
                                (conj (db/inject-db database)))}}))
 
-(defmethod ig/init-key :server/server [_ {:keys [router]}]
-  (jetty/run-jetty
-   (http/ring-handler router
-                      (ring/create-default-handler)
-                      {:executor sieppari/executor})
-   {:port 3000
-    :join? false
-    :async true}))
+(defmethod ig/init-key ::server [_ {:keys [server-opts router]}]
+  (let [srv
+        (jetty/run-jetty
+         (http/ring-handler router
+                            (ring/create-default-handler)
+                            {:executor sieppari/executor})
+         server-opts)]
+    (log/info "Server listening at port" (:port server-opts))
+    srv))
 
-(defmethod ig/halt-key! :server/server [_ server]
+(defmethod ig/halt-key! ::server [_ server]
   (.stop server))

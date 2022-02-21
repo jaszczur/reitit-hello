@@ -1,5 +1,5 @@
-(ns user.core-test
-  (:require [user.core :as sut]
+(ns com.hello.user.core-test
+  (:require [com.hello.user.core :as sut]
             [clojure.test :as t]))
 
 (t/deftest greeting

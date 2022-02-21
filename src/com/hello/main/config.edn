@@ -1,0 +1,21 @@
+{:com.hello.user.api/routes
+ nil
+
+ :com.hello.server/router
+ {:database #ig/ref :com.hello.adapters.database/database
+  :routes
+  [[""
+    #ig/ref :com.hello.user.api/routes]]}
+
+ :com.hello.server/server
+ {:router #ig/ref :com.hello.server/router
+  :server-opts {:port 3000
+                :join? false
+                :async true}}
+
+ :com.hello.adapters.database/database
+ {:db-spec {:jdbcUrl "jdbc:sqlite::memory:"}
+  :schema-resource "com/hello/adapters/schema.sql"
+
+  :fixtures #profile {:default []
+                      :dev #include "dev_fixtures.edn"}}}

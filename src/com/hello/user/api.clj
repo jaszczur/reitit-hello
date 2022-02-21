@@ -1,9 +1,9 @@
-(ns user.api
+(ns com.hello.user.api
   (:require [integrant.core :as ig]
-            [utils.http :as http]
-            [user.core :as user]
-            [user.query :as q]
-            [interceptors.database :as db]))
+            [com.hello.utils.http :as http]
+            [com.hello.user.core :as user]
+            [com.hello.user.query :as q]
+            [com.hello.interceptors.database :as db]))
 
 (defn hello-handler [req]
   (http/response

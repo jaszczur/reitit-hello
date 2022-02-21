@@ -1,6 +1,6 @@
-(ns interceptors.database
+(ns com.hello.interceptors.database
   (:require [sieppari.context :refer [terminate]]
-            [adapters.database :as jdbc]))
+            [com.hello.adapters.database :as jdbc]))
 
 (defn inject-db [database]
   {:name ::inject-db

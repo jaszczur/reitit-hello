@@ -1,4 +1,4 @@
-(ns interceptors.common
+(ns com.hello.interceptors.common
   (:require
    [reitit.http.coercion :as coercion]
    [reitit.http.interceptors.parameters :as parameters]

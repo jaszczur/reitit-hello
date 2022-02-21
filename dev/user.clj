@@ -4,10 +4,13 @@
    [integrant.repl :refer [clear go halt prep init reset reset-all]]
    [io.aviso.repl]
    [io.aviso.exception]
-   [main.system :as system]
+   [io.aviso.logging]
+   [com.hello.main.system :as system]
    [vlaaad.reveal :as reveal]))
 
+(alter-var-root #'io.aviso.exception/*app-frame-names* (constantly [#"com\.hello.*"]))
 (io.aviso.repl/install-pretty-exceptions)
+(io.aviso.logging/install-pretty-logging)
 (integrant.repl/set-prep! #(system/system-config {:profile :dev}))
 
 (defmacro fetch [method url & opts]
@@ -33,6 +36,10 @@
            true))
 
 (comment
+  (halt)
+  (reset)
+
+
   (require '[next.jdbc :as jdbc])
 
   (let [sys integrant.repl.state/system

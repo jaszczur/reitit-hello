@@ -1,4 +1,4 @@
-(ns utils.http
+(ns com.hello.utils.http
   (:require [ring.util.response :as rur]))
 
 ;;;; Request helpers

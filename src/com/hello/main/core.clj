@@ -1,6 +1,6 @@
-(ns main.core
+(ns com.hello.main.core
   (:require
-   [main.system :as sys]
+   [com.hello.main.system :as sys]
    [integrant.core :as ig])
   (:gen-class))
 

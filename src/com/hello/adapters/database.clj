@@ -1,4 +1,4 @@
-(ns adapters.database
+(ns com.hello.adapters.database
   (:require
    [clojure.java.io :as io]
    [clojure.string :refer [split]]

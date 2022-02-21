@@ -1,4 +1,4 @@
-(ns user.query)
+(ns com.hello.user.query)
 
 (defn select-user-by-id [id]
   {:select :*

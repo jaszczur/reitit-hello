@@ -1,4 +1,4 @@
-(ns user.core)
+(ns com.hello.user.core)
 
 ;; Core user greeting logic
 ;;
