@@ -5,8 +5,7 @@
    [io.aviso.repl]
    [io.aviso.exception]
    [io.aviso.logging]
-   [com.hello.main.system :as system]
-   [vlaaad.reveal :as reveal]))
+   [com.hello.main.system :as system]))
 
 (alter-var-root #'io.aviso.exception/*app-frame-names* (constantly [#"com\.hello.*"]))
 (io.aviso.repl/install-pretty-exceptions)
@@ -27,18 +26,14 @@
          hc/request
          (select-keys [:status :headers :body]))))
 
-(defonce personal-settigns-applied (atom nil))
-  (swap! personal-settigns-applied
-         (fn [already-ran]
-           (when-not already-ran
-             (reveal/tap-log :always-on-top true
-                             :close-difficulty :easy))
-           true))
-
 (comment
   (halt)
   (reset)
 
+  (do
+    (require '[vlaaad.reveal :as reveal])
+    (reveal/tap-log :always-on-top true
+                    :close-difficulty :easy))
 
   (require '[next.jdbc :as jdbc])
 
