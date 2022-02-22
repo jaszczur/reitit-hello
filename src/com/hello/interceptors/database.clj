@@ -14,7 +14,7 @@
   ([k query-fn]
    {:enter (fn [ctx]
              (let [query  (query-fn ctx)
-                   entity (and query (jdbc/execute-one (:db ctx) query))]
+                   entity (and query (jdbc/execute-one! (:db ctx) query))]
                (if entity
                  (-> ctx
                      (assoc-in [:request :query-results k] entity)

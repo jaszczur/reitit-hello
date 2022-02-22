@@ -2,7 +2,8 @@
   (:require [hato.client :as hc]
             [integrant.repl.state]
             [migratus.core :as migratus]
-            [next.jdbc :as jdbc]))
+            [next.jdbc :as jdbc]
+            [com.hello.adapters.database :as database]))
 
 (defmacro fetch [method url & opts]
   (let [full-url (str "http://localhost:3030" url)
@@ -32,7 +33,16 @@
      (reveal/tap-log :always-on-top true
                      :close-difficulty :easy)))
 
-(defn execute-jdbc-raw [^String query]
-  (let [sys integrant.repl.state/system
-        ds (-> sys :com.hello.adapters.database/database :datasource)]
+(defmacro with-datasource [ds-sym & body]
+  `(let [~ds-sym (-> integrant.repl.state/system
+                     :com.hello.adapters.database/database
+                     :datasource)]
+     ~@body))
+
+(defn execute-raw-query [^String query]
+  (with-datasource ds
     (jdbc/execute! ds [query])))
+
+(defn execute-query [query]
+  (with-datasource ds
+    (database/execute! ds query)))

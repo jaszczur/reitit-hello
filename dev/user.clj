@@ -26,8 +26,12 @@
   ;; Install reveal repl helper
   (hr/install-reveal-tap)
 
-  ;; Do some manual JDBC stuff
-  (hr/execute-jdbc-raw "SELECT * FROM migrations")
+  ;; Play with raw SQL...
+  (hr/execute-raw-query "SELECT * FROM migrations")
+
+  ;; ... or make it sweet with some Honey
+  (hr/execute-query {:select :*
+                     :from :user})
 
   ;; Test the API
   (hr/fetch :get "/user/1/greet")
