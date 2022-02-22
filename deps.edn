@@ -18,6 +18,7 @@
   ring/ring-jetty-adapter                {:mvn/version "1.9.5"}}
  :aliases
  {:env/dev {:extra-paths ["dev"]
+            :jvm-opts ["-XX:-OmitStackTraceInFastThrow"]
             :extra-deps {integrant/repl  {:mvn/version "0.3.2"}
                          io.aviso/pretty {:mvn/version "1.1.1"}
                          hato/hato       {:mvn/version "0.8.2"}}}
