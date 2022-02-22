@@ -9,13 +9,13 @@
 
  :com.hello.server/server
  {:router #ig/ref :com.hello.server/router
-  :server-opts {:port 3000
+  :server-opts {:port 3030
                 :join? false
                 :async true}}
 
  :com.hello.adapters.database/database
  {:db-spec {:jdbcUrl "jdbc:sqlite::memory:"}
-  :schema-resource "com/hello/adapters/schema.sql"
+  :schema-resource "schema.sql"
 
   :fixtures #profile {:default []
                       :dev #include "dev_fixtures.edn"}}}

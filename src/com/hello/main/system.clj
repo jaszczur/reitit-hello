@@ -21,7 +21,7 @@
   "Read EDN config, with the given aero options. See Aero docs at
   https://github.com/juxt/aero for details."
   [opts]
-  (-> (io/resource "com/hello/main/config.edn")
+  (-> (io/resource "config.edn")
       (aero/read-config opts)))
 
 (defn system-config

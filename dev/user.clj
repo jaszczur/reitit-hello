@@ -13,7 +13,7 @@
 (integrant.repl/set-prep! #(system/system-config {:profile :dev}))
 
 (defmacro fetch [method url & opts]
-  (let [full-url (str "http://localhost:3000" url)
+  (let [full-url (str "http://localhost:3030" url)
         full-opts {:method method
                    :url full-url
                    :throw-exceptions? false
