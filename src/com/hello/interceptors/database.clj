@@ -5,7 +5,7 @@
 (defn inject-db [database]
   {:name ::inject-db
    :enter (fn [ctx]
-            (assoc ctx :db database))})
+            (assoc ctx :db (:datasource database)))})
 
 (defn query-one
   "Queries database for "

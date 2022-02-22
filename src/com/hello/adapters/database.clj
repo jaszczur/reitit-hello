@@ -5,7 +5,8 @@
    [honey.sql :as sql]
    [integrant.core :as ig]
    [next.jdbc :as jdbc]
-   [next.jdbc.connection :as conn])
+   [next.jdbc.connection :as conn]
+   [migratus.core :as migratus])
   (:import (com.zaxxer.hikari HikariDataSource)))
 
 (defmacro execute-one [ds query]
@@ -19,24 +20,25 @@
       slurp
       (split #"\s*-- \*\*\*\n")))
 
-(defn import-schema [ds url]
-  (doseq [stmt (slurp-statements url)]
-    (jdbc/execute-one! ds [stmt])))
 
 (defmethod ig/init-key ::database [_ {:keys [db-spec
-                                             schema-resource
+                                             migrations
                                              fixtures]}]
-  (let [ds (conn/->pool HikariDataSource db-spec)]
-    (import-schema ds (io/resource schema-resource))
+  (let [ds (conn/->pool HikariDataSource db-spec)
+        migratus-opts (assoc migrations :db {:datasource ds})]
+    (migratus/migrate migratus-opts)
     (doseq [stmt fixtures]
       (execute ds stmt))
-    ds))
+    {:datasource ds
+     :migratus-opts migratus-opts}))
 
-(defmethod ig/halt-key! ::database [_ datasource]
+(defmethod ig/halt-key! ::database [_ {:keys [datasource]}]
   (.close datasource))
 
 (comment
-  (def ds (::database integrant.repl.state/system))
+  (def ds (-> integrant.repl.state/system
+              ::database
+              :datasource))
 
   (jdbc/execute! ds ["
 insert into user (name, last_modified) values

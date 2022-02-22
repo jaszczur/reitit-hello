@@ -15,7 +15,10 @@
 
  :com.hello.adapters.database/database
  {:db-spec {:jdbcUrl "jdbc:sqlite::memory:"}
-  :schema-resource "schema.sql"
-
+  :migrations {:store                :database
+               :migration-dir        "migrations/"
+               :init-in-transaction? false ;defaults to true, some databases do not support
+                                        ;schema initialization in a transaction
+               :migration-table-name "migrations"}
   :fixtures #profile {:default []
                       :dev #include "dev_fixtures.edn"}}}

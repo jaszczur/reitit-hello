@@ -5,6 +5,7 @@
    [io.aviso.repl]
    [io.aviso.exception]
    [io.aviso.logging]
+   [migratus.core :as migratus]
    [com.hello.main.system :as system]))
 
 (alter-var-root #'io.aviso.exception/*app-frame-names* (constantly [#"com\.hello.*"]))
@@ -27,21 +28,31 @@
          (select-keys [:status :headers :body]))))
 
 (comment
+  ;; System up/down
   (halt)
   (reset)
 
+  ;; Create migration script
+  (let [migratus-opts (-> integrant.repl.state/system
+                          :com.hello.adapters/database
+                          :migratus-opts)]
+    (migratus/create migratus-opts "the-migration-description"))
+
+  ;; Install reveal repl helper
   (do
     (require '[vlaaad.reveal :as reveal])
     (reveal/tap-log :always-on-top true
                     :close-difficulty :easy))
 
-  (require '[next.jdbc :as jdbc])
+  ;; Do some manual JDBC stuff
+  (do
+    (require '[next.jdbc :as jdbc])
+    (let [sys integrant.repl.state/system
+          ds (-> sys :com.hello.adapters.database/database :datasource)]
+      (jdbc/execute! ds ["SELECT * FROM migrations"])))
 
-  (let [sys integrant.repl.state/system
-        ds (:adapters.database/database sys)]
-    (jdbc/execute! ds ["SELECT * FROM User"]))
 
-
+  ;; Test the API
   (fetch :get "/user/1/greet")
   (fetch :get "/user/2/greet" :accept :json :as :string)
 
