@@ -27,11 +27,16 @@
                           :migratus-opts)]
     (migratus/create migratus-opts name)))
 
-(defmacro install-reveal-tap []
+(defmacro install-reveal-tap
+  "It requires Reveal dependency on the classpath (is not incleded in the project).
+
+  If you're using [https://github.com/practicalli/clojure-deps-edn], you can add :inspect/reveal
+  to a list of aliases you're using in your editor/repl."
+  []
   `(do
-     (require '[vlaaad.reveal :as reveal])
-     (reveal/tap-log :always-on-top true
-                     :close-difficulty :easy)))
+     (require '[vlaaad.reveal])
+     (vlaaad.reveal/tap-log :always-on-top true
+                            :close-difficulty :easy)))
 
 (defmacro with-datasource [ds-sym & body]
   `(let [~ds-sym (-> integrant.repl.state/system
