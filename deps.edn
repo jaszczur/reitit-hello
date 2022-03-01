@@ -3,6 +3,7 @@
  {aero/aero                              {:mvn/version "1.1.6"}
   camel-snake-kebab/camel-snake-kebab    {:mvn/version "0.4.2"}
   ch.qos.logback/logback-classic         {:mvn/version "1.2.6"}
+  com.azure/azure-cosmos                 {:mvn/version "4.26.0"}
   com.fzakaria/slf4j-timbre              {:mvn/version "0.3.21"}
   com.github.seancorfield/honeysql       {:mvn/version "2.2.861"}
   com.github.seancorfield/next.jdbc      {:mvn/version "1.2.772"}
